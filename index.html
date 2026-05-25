@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Faire: A reinforcement learning framework that unlocks the Aha Moment in geometric interleaved reasoning. ICML 2026." />
+  <meta name="keywords" content="ICML 2026, multimodal reasoning, geometric reasoning, reinforcement learning, interleaved reasoning, MLLM, vision language models" />
+  <meta property="og:title" content="How RL Unlocks the Aha Moment in Geometric Interleaved Reasoning" />
+  <meta property="og:description" content="Faire (Functional alignment for interleaved reasoning) — a tri-perspective RL framework that turns drawing from a noisy distractor into a load-bearing scaffold. ICML 2026." />
+  <meta property="og:type" content="article" />
+  <title>Faire · How RL Unlocks the Aha Moment in Geometric Interleaved Reasoning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css" />
+  <!-- KaTeX for math (local) -->
+  <link rel="stylesheet" href="static/vendor/katex/dist/katex.min.css" />
+  <script defer src="static/vendor/katex/dist/katex.min.js"></script>
+  <script defer src="static/vendor/katex/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}], throwOnError:false, macros:{'\\1':'\\mathbb{1}','\\C':'\\mathcal{C}'}})"></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+<!-- ============== TOP NAV ============== -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-spark">✦</span> Faire
+    </a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#framework">Method</a>
+      <a href="#dataset">Dataset</a>
+      <a href="#results">Results</a>
+      <a href="#demos">Demos</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<header class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="venue-badge">
+      <span class="dot"></span> ICML 2026 · Seoul, South Korea
+    </div>
+    <h1 class="title">
+      How <span class="title-accent">RL</span> Unlocks the
+      <span class="title-emph">Aha Moment</span>
+      in Geometric Interleaved Reasoning
+    </h1>
+    <p class="subtitle">
+      A reinforcement-learning framework that transforms diagram drawing
+      from a noisy distractor into a load-bearing scaffold for reasoning.
+    </p>
+
+    <div class="authors">
+      <span class="author"><a href="#" tabindex="-1">Xiangxiang Zhang</a><sup>* 1</sup></span>
+      <span class="author">Caijun Jia<sup>* 2 3</sup></span>
+      <span class="author">Siyuan Li<sup>* 1 4</sup></span>
+      <span class="author">Dingyu He<sup>* 1</sup></span>
+      <span class="author">Xiya Xiong<sup>* 1</sup></span>
+      <span class="author">Zheng Sun<sup>2 3</sup></span>
+      <span class="author">Honghao He<sup>2 3</sup></span>
+      <span class="author">Yuchen Wu<sup>1</sup></span>
+      <span class="author">Bihui Yu<sup>2 3</sup></span>
+      <span class="author">Linzhuang Sun<sup>2 3</sup></span>
+      <span class="author">Cheng Tan<sup>† 1 4</sup></span>
+      <span class="author">Jingxuan Wei<sup>† 2 3 5</sup></span>
+    </div>
+
+    <div class="affiliations">
+      <span><sup>1</sup> ByteDance</span>
+      <span><sup>2</sup> Shenyang Institute of Computing Technology, CAS</span>
+      <span><sup>3</sup> University of Chinese Academy of Sciences</span>
+      <span><sup>4</sup> Westlake University</span>
+      <span><sup>5</sup> Key Laboratory of Computing Power Network & Information Security, MoE</span>
+      <span class="muted"><sup>*</sup> Equal contribution &nbsp;·&nbsp; <sup>†</sup> Corresponding authors</span>
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://arxiv.org/pdf/2603.01070" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Paper (PDF)
+      </a>
+      <a class="btn btn-ghost" href="https://arxiv.org/abs/2603.01070" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        arXiv
+      </a>
+      <a class="btn btn-ghost" href="#" title="Coming soon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        Code
+      </a>
+      <a class="btn btn-ghost" href="#" title="Coming soon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+        Faire-Bench
+      </a>
+      <button class="btn btn-ghost" id="copy-bibtex-hero">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span class="bib-label">BibTeX</span>
+      </button>
+    </div>
+
+    <!-- TEASER FIGURE -->
+    <figure class="teaser">
+      <img src="static/images/fig_intro_hd.png" alt="Bar chart showing that SFT on interleaved data degrades vs text-only — only RL recovers and exceeds." />
+      <figcaption>
+        <strong>The SFT Paradox.</strong> Naively SFT-ing on interleaved plot+solution data
+        <span class="hl-bad">drops accuracy below text-only training</span>
+        on multiple geometric sub-tasks. Faire's RL post-training closes the gap and
+        <span class="hl-good">turns interleaving into a net win</span>.
+      </figcaption>
+    </figure>
+  </div>
+</header>
+
+<!-- ============== TL;DR STRIP ============== -->
+<section class="tldr">
+  <div class="container tldr-grid">
+    <div class="tldr-card">
+      <div class="tldr-num">+30.5</div>
+      <div class="tldr-label">Verification Avg.</div>
+      <div class="tldr-note">14.85&nbsp;→&nbsp;45.37 on Qwen3-VL-8B</div>
+    </div>
+    <div class="tldr-card">
+      <div class="tldr-num">3×</div>
+      <div class="tldr-label">Formal Grounding</div>
+      <div class="tldr-note">22.51 (Gemini-2.5-Pro) → 60.39 (Faire)</div>
+    </div>
+    <div class="tldr-card">
+      <div class="tldr-num">r=0.96</div>
+      <div class="tldr-label">Human Alignment</div>
+      <div class="tldr-note">Verifier score vs. human rating</div>
+    </div>
+    <div class="tldr-card">
+      <div class="tldr-num">7,989</div>
+      <div class="tldr-label">Faire-Bench Instances</div>
+      <div class="tldr-note">K12 geometry, tri-filtered</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ABSTRACT ============== -->
+<section class="section" id="abstract">
+  <div class="container narrow">
+    <h2 class="section-title">Abstract</h2>
+    <p class="lede">
+      Solving complex geometric problems inherently requires <em>interleaved reasoning</em>:
+      a tight alternation between constructing diagrams and performing logical deductions.
+      Although recent MLLMs show strong capabilities in visual generation and plotting,
+      we identify a counterintuitive and underexplored phenomenon.
+    </p>
+    <p>
+      Naively applying Supervised Fine-Tuning (SFT) on interleaved plot–solution data
+      leads to a <strong>substantial degradation in reasoning performance</strong>
+      compared to text-only baselines. We argue that this failure stems from a fundamental
+      limitation of SFT, which primarily induces <em>distributional alignment</em>: the model
+      learns to reproduce the surface format of interleaved plotting but fails to internalize
+      the causal dependency between the generated plot and reasoning steps.
+    </p>
+    <p>
+      To overcome this limitation, we propose <strong>Faire</strong>
+      (<u>F</u>unctional <u>a</u>lignment for <u>i</u>nterleaved <u>re</u>asoning), a
+      reinforcement-learning framework that enforces three causal constraints to move beyond
+      superficial imitation toward <em>functional alignment</em>. Extensive experiments show
+      that Faire induces a qualitative shift in model behavior in which the plotting is
+      effectively internalized, yielding competitive performance on challenging geometric
+      reasoning benchmarks.
+    </p>
+
+    <div class="key-claims">
+      <h3 class="sub-title">Key Claims</h3>
+      <ol class="claims-list">
+        <li>
+          <span class="claim-badge">①</span>
+          <span><strong>The SFT Paradox.</strong> Mimicking the <em>format</em> of interleaved reasoning
+          without its <em>function</em> hurts accuracy. SFT acts as a noisy channel — the diagram raises
+          the entropy of the answer rather than collapsing it.</span>
+        </li>
+        <li>
+          <span class="claim-badge">②</span>
+          <span><strong>Functional Alignment via Tri-Perspective Verification.</strong>
+          A gated reward over <em>geometric</em>, <em>perceptual</em>, and <em>semantic</em> validity
+          forces the diagram to behave as a causal mediator T → V → Y.</span>
+        </li>
+        <li>
+          <span class="claim-badge">③</span>
+          <span><strong>The Aha Moment is Measurable.</strong> Under RL, entropy reallocates onto
+          <em>visual & plotting</em> tokens (23.4%) — drawing becomes an active decision shaped by
+          verifier feedback, not memorized formatting.</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============== THE SFT PARADOX ============== -->
+<section class="section section-alt" id="paradox">
+  <div class="container">
+    <h2 class="section-title">The SFT Paradox <span class="aside">— why drawing usually hurts</span></h2>
+    <p class="lede">
+      Existing wisdom says richer multimodal context should improve reasoning. We find the
+      opposite on geometry: when we SFT on the same data with diagrams interleaved,
+      <strong>accuracy drops below text-only</strong>. The model has learned <em>when</em> to draw,
+      but not <em>what to draw such that drawing helps</em>.
+    </p>
+    <div class="paradox-grid">
+      <div class="paradox-col">
+        <div class="paradox-tag tag-bad">SFT — distributional alignment</div>
+        <ul class="paradox-list">
+          <li><b>Superficial correlation.</b> Minimizes $H_\pi(V \mid T, X)$, treats $V$ and $Y$ as conditionally independent given strong textual priors.</li>
+          <li><b>Context fragmentation.</b> A mismatched diagram acts as a noisy channel; the deduction entropy <em>rises</em>: $H_{\pi_\theta}(Y \mid T_1, V, X) \geq H_{\pi_\theta}(Y \mid T_1, X) + \delta$.</li>
+          <li><b>Drawing as decoration.</b> The figure looks plausible but does not faithfully implement the claimed visual hierarchy.</li>
+        </ul>
+      </div>
+      <div class="paradox-col">
+        <div class="paradox-tag tag-good">Faire — functional alignment</div>
+        <ul class="paradox-list">
+          <li><b>$V$ as latent causal mediator.</b> RL optimizes $T \xrightarrow{\text{construct}} V \xrightarrow{\text{observe}} Y$ with verified mediation.</li>
+          <li><b>Tri-perspective reward.</b> Joint constraints on <em>geometric</em>, <em>perceptual</em>, and <em>semantic</em> validity collapse, not raise, the answer entropy.</li>
+          <li><b>Drawing as evidence.</b> The constructed diagram is operationally consistent with the proof — auxiliary points instantiated in the right dependency order.</li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="figure wide">
+      <img src="static/images/sftcase1-1.png" alt="Case comparing SFT failure (mismatched diagram, broken proof) vs Faire success (consistent auxiliary line construction)." />
+      <figcaption>
+        <strong>Case study.</strong> SFT mimics the alternation pattern but the constructed
+        diagram (mid-points, colors, line style) does not match the proof goal. Faire's
+        construction is operationally consistent — the auxiliary line is instantiated
+        in the order the deduction needs.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============== METHOD / FRAMEWORK ============== -->
+<section class="section" id="framework">
+  <div class="container">
+    <h2 class="section-title">Faire Framework</h2>
+    <p class="lede">
+      Faire treats the visual artifact $V$ as a <em>latent causal mediator</em>
+      between the textual premise $T$ and the answer $Y$.
+      For the causal path $T \to V \to Y$ to hold, $V$ must satisfy three
+      independent conditions, formalized by a Tri-perspective Verifier system $\mathcal{V}$.
+    </p>
+
+    <figure class="figure wide">
+      <img src="static/images/fig_framework-1.png" alt="Faire framework: VLM generates reasoning text and GeoGebra code; three verifiers (Geometric, Perceptual, Semantic) gate the reward, integrated via GRPO." />
+      <figcaption>
+        <strong>Faire overview.</strong> The MLLM produces an interleaved trajectory of text
+        and GeoGebra code; rendering produces $V$. A <em>gated</em> reward enforces answer
+        correctness $\mathcal{C}_{\text{ans}}$ and code executability $\mathcal{C}_{\text{exe}}$,
+        then aggregates perceptual $\mathcal{C}_{\text{perc}}$, semantic $\mathcal{C}_{\text{sem}}$,
+        and formal verification $\mathcal{C}_{\text{geo}}$ into a causally-grounded GRPO update.
+      </figcaption>
+    </figure>
+
+    <div class="three-up">
+      <div class="card">
+        <div class="card-icon">🧮</div>
+        <h3>$\mathcal{C}_{\text{geo}}$ — Node Integrity</h3>
+        <p>An <strong>objective verifier</strong> executes the generated code in a
+        GeoGebra sandbox and checks it against hard constraints derived from the
+        problem (collinearity, midpoint, tangency …). Guarantees $V$ exists as a
+        well-defined mathematical object.</p>
+        <div class="card-eq">
+          $$\mathcal{C}_{\text{geo}}(c, X) = \mathbb{1}(c \in \Omega_{\text{valid}}) \cdot \!\!\prod_{k \in \mathcal{K}_X}\!\! \mathbb{1}(\text{Satisfies}(c, k))$$
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">👁️</div>
+        <h3>$\mathcal{C}_{\text{perc}}$ — Egress Validity</h3>
+        <p>A <strong>subjective verifier</strong> (an MLLM judge) checks that $V$ is
+        actually <em>readable</em> by a solver — occlusion, extreme scale, and label
+        overlap act as channel noise that breaks the $V \to Y$ edge.</p>
+        <div class="card-eq">
+          $$\mathcal{C}_{\text{perc}}(v) = \mathbb{1}\bigl(J_{\text{mllm}}(v) > \tau_{\text{perc}}\bigr)$$
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>$\mathcal{C}_{\text{sem}}$ — Ingress Validity</h3>
+        <p>A <strong>semantic verifier</strong> requires logical entailment between
+        primitives extracted from the code and intents extracted from the text —
+        no random "valid figure that ignores the plan".</p>
+        <div class="card-eq">
+          $$\mathcal{C}_{\text{sem}}(c, T) = \mathbb{1}\bigl(\psi(T) \subseteq \varphi(c)\bigr)$$
+        </div>
+      </div>
+    </div>
+
+    <div class="reward-callout">
+      <div class="reward-eq-label">Causally-grounded reward</div>
+      <div class="reward-eq">
+        $$R(V, Y) \;=\; \mathbb{1}(Y = Y^{*}) \;+\; \beta \cdot \bigl(\mathcal{C}_{\text{geo}} + \mathcal{C}_{\text{perc}} + \mathcal{C}_{\text{sem}}\bigr)$$
+      </div>
+      <div class="reward-eq-label grpo">GRPO objective</div>
+      <div class="reward-grpo">
+        $$\mathcal{L}_{\text{GRPO}} \;=\; \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\frac{\pi_\theta(\tau)}{\pi_{\text{old}}(\tau)}\,\hat{A}(\tau)\right] \;-\; \beta\, D_{\mathrm{KL}}\!\bigl(\pi_\theta \,\|\, \pi_{\text{ref}}\bigr)$$
+      </div>
+      <p class="reward-note">
+        The functionally-aligned reward mines the long-tail of the generation distribution,
+        reinforcing those rare outlier trajectories where the diagram <strong>actively facilitates</strong>
+        deduction — not just decorates the answer.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== DATASET ============== -->
+<section class="section section-alt" id="dataset">
+  <div class="container">
+    <h2 class="section-title">Faire-Bench</h2>
+    <p class="lede">
+      A benchmark for <em>geometric interleaved reasoning</em>: 7,989 K12 instances,
+      each pairing stepwise deduction with an executable GeoGebra program whose
+      execution reconstructs the geometric state the next deduction relies on.
+    </p>
+
+    <figure class="figure wide">
+      <img src="static/images/fig_dataset_pipeline-1.png" alt="Three-stage data pipeline: Alignment Filter, Semantic Filter, Geometric Assertion Filter — gated by manual review." />
+      <figcaption>
+        <strong>Tri-perspective verification pipeline.</strong> Candidates pass an
+        <em>Alignment Filter</em> (visual fidelity), <em>Semantic Filter</em>
+        (code-vs-text consistency), and <em>Geo Assert Filter</em> (deterministic
+        GeoGebra truth verdict). Only All-Pass samples enter the final dataset.
+      </figcaption>
+    </figure>
+
+    <div class="data-grid">
+      <div class="data-stat">
+        <h3>Splits</h3>
+        <table class="mini-table">
+          <tr><th></th><th>SFT</th><th>RL</th><th>Eval</th></tr>
+          <tr><td>#Instances</td><td>4,643</td><td>2,321</td><td>1,025</td></tr>
+          <tr><td>Plane Geo.</td><td>51.5%</td><td>51.6%</td><td>54.7%</td></tr>
+          <tr><td>Function</td><td>29.4%</td><td>28.3%</td><td>27.4%</td></tr>
+          <tr><td>Analytic Geo.</td><td>19.1%</td><td>20.1%</td><td>17.9%</td></tr>
+          <tr><td>Hard difficulty</td><td>54.4%</td><td>54.8%</td><td>54.1%</td></tr>
+          <tr><td>≥ 2 images</td><td>39.6%</td><td>38.4%</td><td>43.6%</td></tr>
+        </table>
+      </div>
+      <figure class="data-fig">
+        <img src="static/images/fig_dataset_distribution-1.png" alt="Stage and category distribution: inner ring shows K1-5 / K6-8 / K9-12; outer ring shows geometric category shares." />
+        <figcaption>K6–8 (middle school) dominates (~70%) — the stage where diagrammatic construction becomes central.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============== RESULTS ============== -->
+<section class="section" id="results">
+  <div class="container">
+    <h2 class="section-title">Main Results</h2>
+    <p class="lede">
+      Faire (built on Qwen3-VL-8B, 8B params) reaches <strong>74.82% accuracy</strong> and
+      <strong>45.37 verification average</strong> — outperforming proprietary baselines
+      including Gemini-2.5-Pro and GPT-5.2 by a wide margin on functional grounding,
+      while remaining competitive on raw answer accuracy.
+    </p>
+
+    <div class="results-wrap">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Acc</th>
+            <th>Parser</th>
+            <th>Code</th>
+            <th>Judge</th>
+            <th class="hl">Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Gemma3-12B</td><td>20.97</td><td>1.97</td><td>4.13</td><td>0.88</td><td>2.33</td></tr>
+          <tr><td>Kimi-VL-A3B</td><td>23.22</td><td>2.61</td><td>11.94</td><td>6.82</td><td>7.12</td></tr>
+          <tr><td>InternVL3.5-8B</td><td>45.56</td><td>5.00</td><td>17.84</td><td>5.20</td><td>9.35</td></tr>
+          <tr><td>Qwen2.5-VL-7B</td><td>26.34</td><td>5.16</td><td>21.83</td><td>3.31</td><td>10.10</td></tr>
+          <tr><td>GLM-4.1V-9B</td><td>63.41</td><td>7.43</td><td>22.39</td><td>7.04</td><td>12.29</td></tr>
+          <tr class="sft-init"><td>Qwen3-VL-8B <span class="muted">(SFT init.)</span></td><td>59.71</td><td>8.62</td><td>25.47</td><td>10.47</td><td>14.85</td></tr>
+          <tr class="sep"><td colspan="6"></td></tr>
+          <tr><td>GPT-4o</td><td>25.56</td><td>4.62</td><td>8.92</td><td>5.27</td><td>6.27</td></tr>
+          <tr><td>GPT-5.1</td><td>56.58</td><td>10.34</td><td>25.85</td><td>18.24</td><td>18.14</td></tr>
+          <tr><td>Gemini-2.5-Pro</td><td><b>78.24</b></td><td>15.90</td><td>22.51</td><td>15.45</td><td>19.86</td></tr>
+          <tr><td>GPT-5.2</td><td>68.78</td><td>7.02</td><td>36.59</td><td>30.24</td><td>24.62</td></tr>
+          <tr class="ours"><td><b>Faire (Ours, 8B)</b></td><td>74.82</td><td><b>37.27</b></td><td><b>60.39</b></td><td><b>38.44</b></td><td class="hl"><b>45.37</b></td></tr>
+        </tbody>
+      </table>
+      <p class="table-caption">
+        <strong>Table 1.</strong> Acc: answer accuracy. Verification uses tri-perspective scores —
+        Parser (semantic), Code (formal), Judge (visual). Faire improves all three at once;
+        the lead is <em>structural</em>, not cosmetic.
+      </p>
+    </div>
+
+    <div class="result-cards">
+      <div class="result-card">
+        <h3>Accuracy is not enough.</h3>
+        <p>Gemini-2.5-Pro hits the highest answer accuracy, yet its <em>formal validity</em>
+        stays at 22.51. It reasons <em>around</em> the diagram, not <em>through</em> it.
+        Faire pairs strong accuracy with nearly <strong>3× the formal grounding</strong>
+        (60.39 vs 22.51).</p>
+      </div>
+      <div class="result-card">
+        <h3>Surface mimicry vs. causal grounding.</h3>
+        <p>GPT-5.2 produces diagrams with high SSIM/LPIPS — visually plausible — but its
+        Parser score collapses to 7.02. Faire avoids this pitfall by prioritizing
+        verifiable relations over surface resemblance.</p>
+      </div>
+      <div class="result-card">
+        <h3>RL > Best-of-N selection.</h3>
+        <p>Best-of-N on the SFT checkpoint with the same verifiers reaches only 37.92 Draw
+        Avg even at N=10 — Faire's <strong>45.37</strong> can't be reached by selecting
+        better SFT traces; it requires repairing the construction–reasoning coupling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AHA MOMENT ============== -->
+<section class="section section-aha" id="aha">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="aha-flame">✦</span> The Aha Moment
+      <span class="aside">— entropy migrates onto drawing</span>
+    </h2>
+    <p class="lede">
+      <em>Aha</em> here is not a vibe — it is a measurable shift in the entropy
+      distribution. Comparing the top-100 most entropy-increased tokens between
+      SFT and RL: nearly <strong>40%</strong> of the shift lands on <em>numeric</em>
+      and <em>code</em> tokens, with <strong>Visual & Plotting</strong> tokens
+      taking the single largest share at <b>23.38%</b>.
+    </p>
+
+    <figure class="figure narrow-fig">
+      <img src="static/images/fig_entropy_hd.png" alt="Bar chart of top-100 entropy-increased token categories after RL: Visual&Plotting 23.38%, Numerical 21.36%, Others 21%, Coding 17.63%, Reasoning 16.6%." />
+      <figcaption>
+        <strong>Entropy reallocation under RL.</strong> Higher entropy here does
+        <em>not</em> mean randomness — it reflects a shift from low-entropy template
+        generation toward deliberate computation. Drawing is no longer a fixed
+        routine; it becomes an active, verifier-shaped decision.
+      </figcaption>
+    </figure>
+
+    <figure class="figure narrow-fig">
+      <img src="static/images/fig_human_eval-1.png" alt="Scatter plot: model verifier score on Y-axis vs human score on X-axis. Faire sits in upper-right corner with rate=0.9578 correlation; other models cluster lower-left." />
+      <figcaption>
+        <strong>Verifier ≈ human judgment.</strong> Faire is the only model in the
+        top-right quadrant — high automated score <em>and</em> high human preference,
+        with near-perfect correlation (r&nbsp;=&nbsp;0.9578). The reward is not exploited
+        by superficial artifacts.
+      </figcaption>
+    </figure>
+
+    <div class="ablation">
+      <h3 class="sub-title">Ablation — every verifier is load-bearing</h3>
+      <table class="mini-table">
+        <thead>
+          <tr><th>Variant</th><th>Acc</th><th>Draw Avg</th></tr>
+        </thead>
+        <tbody>
+          <tr class="ours"><td><b>Faire (Full)</b></td><td><b>74.83</b></td><td><b>45.37</b></td></tr>
+          <tr><td>– w/o Alignment</td><td>66.53</td><td>38.31</td></tr>
+          <tr><td>– w/o Semantic</td><td>66.24</td><td>39.37</td></tr>
+          <tr><td>– w/o Geo Assert</td><td>65.88</td><td>37.15</td></tr>
+          <tr class="muted-row"><td>RL (Exec-only)</td><td>64.29</td><td>35.65</td></tr>
+          <tr class="muted-row"><td>SFT (Interleaved)</td><td>62.48</td><td>35.23</td></tr>
+        </tbody>
+      </table>
+      <p class="table-caption">
+        Removing any single signal degrades both accuracy and draw quality —
+        the three rewards are <em>complementary</em>, not redundant.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== DEMOS ============== -->
+<section class="section section-alt" id="demos">
+  <div class="container">
+    <h2 class="section-title">Qualitative Examples</h2>
+    <p class="lede">
+      Faire constructs an auxiliary diagram in the dependency order the proof needs,
+      with the right primitives instantiated before they are referenced.
+      Click a tile to enlarge.
+    </p>
+
+    <div class="demo-gallery">
+      <button class="demo-tile" data-src="static/images/demo1-1.png" data-caption="Demo 1 · Inverse proportional function & linear function intersection — Faire constructs intersection points in the correct order and uses them to write the solution set.">
+        <img src="static/images/demo1-1.png" alt="Demo 1" />
+        <span class="demo-num">01</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/demo2-1.png" data-caption="Demo 2 · Plane geometry with auxiliary construction.">
+        <img src="static/images/demo2-1.png" alt="Demo 2" />
+        <span class="demo-num">02</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/demo3-1.png" data-caption="Demo 3 · Function graph reasoning.">
+        <img src="static/images/demo3-1.png" alt="Demo 3" />
+        <span class="demo-num">03</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/demo4-1.png" data-caption="Demo 4 · Triangle congruence via auxiliary lines.">
+        <img src="static/images/demo4-1.png" alt="Demo 4" />
+        <span class="demo-num">04</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/demo5-1.png" data-caption="Demo 5 · Multi-step polygon reasoning.">
+        <img src="static/images/demo5-1.png" alt="Demo 5" />
+        <span class="demo-num">05</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/demo6-1.png" data-caption="Demo 6 · Analytic geometry with coordinate construction.">
+        <img src="static/images/demo6-1.png" alt="Demo 6" />
+        <span class="demo-num">06</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/demo7-1.png" data-caption="Demo 7 · Quadrilateral & circle relations.">
+        <img src="static/images/demo7-1.png" alt="Demo 7" />
+        <span class="demo-num">07</span>
+      </button>
+      <button class="demo-tile" data-src="static/images/sftcase2-1.png" data-caption="SFT vs Faire on a function graph problem — SFT draws the wrong quadrant, Faire's diagram instantiates the correct answer.">
+        <img src="static/images/sftcase2-1.png" alt="SFT vs Faire case 2" />
+        <span class="demo-num">↔</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" aria-label="close">&times;</button>
+  <img class="lightbox-img" alt="" />
+  <div class="lightbox-caption"></div>
+</div>
+
+<!-- ============== BIBTEX ============== -->
+<section class="section" id="bibtex">
+  <div class="container narrow">
+    <h2 class="section-title">BibTeX</h2>
+    <p class="lede">If you find Faire useful for your research, please cite:</p>
+    <div class="bib-wrap">
+      <button class="bib-copy" id="copy-bibtex" aria-label="Copy BibTeX">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy</span>
+      </button>
+      <pre id="bibtex-block"><code>@inproceedings{zhang2026faire,
+  title     = {How {RL} Unlocks the Aha Moment in Geometric Interleaved Reasoning},
+  author    = {Zhang, Xiangxiang and Jia, Caijun and Li, Siyuan and He, Dingyu and
+               Xiong, Xiya and Sun, Zheng and He, Honghao and Wu, Yuchen and
+               Yu, Bihui and Sun, Linzhuang and Tan, Cheng and Wei, Jingxuan},
+  booktitle = {Proceedings of the 43rd International Conference on Machine Learning},
+  series    = {PMLR 306},
+  year      = {2026},
+  address   = {Seoul, South Korea},
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Acknowledgments</h4>
+        <p>
+          We thank the anonymous ICML reviewers for their valuable comments. Supported
+          by the ECAP project agreement between ByteDance and the Shenyang Institute
+          of Computing Technology, CAS.
+        </p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>
+          Cheng Tan · <a href="mailto:tancheng@pjlab.org.cn">tancheng@pjlab.org.cn</a><br/>
+          Jingxuan Wei · <a href="mailto:weijingxuan20@mails.ucas.edu.cn">weijingxuan20@mails.ucas.edu.cn</a>
+        </p>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <p>
+          <a href="https://arxiv.org/abs/2603.01070" target="_blank" rel="noopener">arXiv abstract</a><br/>
+          <a href="https://arxiv.org/pdf/2603.01070" target="_blank" rel="noopener">Paper (PDF)</a><br/>
+          <a href="#bibtex">BibTeX</a><br/>
+          <a href="#" title="Coming soon">Code (coming soon)</a><br/>
+          <a href="#" title="Coming soon">Faire-Bench (coming soon)</a>
+        </p>
+      </div>
+    </div>
+    <hr/>
+    <p class="footer-fine">
+      Template inspired by the Nerfies project page. Built with care for ICML 2026.
+      <span class="muted">© 2026 The Authors.</span>
+    </p>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite">Copied!</div>
+
+<script src="static/js/main.js"></script>
+</body>
+</html>

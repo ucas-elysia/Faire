@@ -174,14 +174,35 @@ a:hover { color: var(--accent); }
 }
 /* Per-logo width tweaks so visually-balanced widths */
 .org-chip:nth-child(1) img { max-height: 22px; max-width: 130px; }   /* bytedance wordmark */
-.org-chip:nth-child(2) img { max-height: 40px; max-width: 50px; }    /* CAS round seal */
 .org-chip:nth-child(3) img { max-height: 28px; max-width: 180px; }   /* UCAS horizontal wordmark */
 .org-chip:nth-child(4) img { max-height: 24px; max-width: 200px; }   /* Westlake very wide wordmark */
-.org-chip:nth-child(5) img { max-height: 32px; max-width: 60px; }    /* MoE small */
+
+/* Logo + text variant (mirrors the ICML venue-badge style) */
+.org-chip-text {
+  gap: 10px;
+  padding: 8px 16px 8px 12px;
+}
+.org-chip-text .chip-mark {
+  max-height: 34px;
+  max-width: 38px;
+  width: auto;
+  flex: 0 0 auto;
+}
+.org-chip-text .chip-label {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+}
 
 @media (max-width: 720px) {
   .org-strip { justify-content: center; }
   .org-chip { padding: 8px 12px; height: 48px; }
+  .org-chip-text { padding: 6px 12px 6px 10px; }
+  .org-chip-text .chip-mark { max-height: 28px; max-width: 32px; }
+  .org-chip-text .chip-label { font-size: 13px; }
 }
 
 /* ACCOLADE BANNER — ICML Spotlight */

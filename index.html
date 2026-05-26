@@ -43,8 +43,11 @@
 <header class="hero" id="top">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="container">
-    <div class="venue-badge">
-      <span class="dot"></span> ICML 2026 · Seoul, South Korea
+    <div class="venue-badge venue-badge-logo">
+      <img src="static/images/logos/icml-logo.svg" alt="ICML 2026" class="venue-logo" />
+      <span class="venue-year">2026</span>
+      <span class="venue-sep">·</span>
+      <span class="venue-tag">Spotlight</span>
     </div>
     <h1 class="title">
       How <span class="title-accent">RL</span> Unlocks the
@@ -78,6 +81,14 @@
       <span><sup>4</sup> Westlake University</span>
       <span><sup>5</sup> Key Laboratory of Computing Power Network & Information Security, MoE</span>
       <span class="muted"><sup>*</sup> Equal contribution &nbsp;·&nbsp; <sup>†</sup> Corresponding authors</span>
+    </div>
+
+    <div class="org-strip" aria-label="Affiliated institutions">
+      <div class="org-chip"><span class="org-tag">字节</span><span class="org-name">ByteDance</span></div>
+      <div class="org-chip"><span class="org-tag">中科院</span><span class="org-name">CAS&nbsp;·&nbsp;SICT</span></div>
+      <div class="org-chip"><span class="org-tag">国科大</span><span class="org-name">UCAS</span></div>
+      <div class="org-chip"><span class="org-tag">西湖</span><span class="org-name">Westlake&nbsp;University</span></div>
+      <div class="org-chip"><span class="org-tag">教育部</span><span class="org-name">CPN&IS Lab, MoE</span></div>
     </div>
 
     <div class="hero-actions">
@@ -115,6 +126,33 @@
     </figure>
   </div>
 </header>
+
+<!-- ============== SPOTLIGHT ACCOLADE BANNER ============== -->
+<section class="accolade-section">
+  <div class="container">
+    <div class="accolade-banner">
+      <div class="accolade-trophy" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/>
+          <path d="M6 22h12"/><path d="M10 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34"/>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+      </div>
+      <div class="accolade-text">
+        <div class="accolade-eyebrow">Selected as</div>
+        <div class="accolade-title">ICML 2026 <em>Spotlight</em></div>
+        <div class="accolade-meta">
+          Top <b>2.2%</b> &nbsp;·&nbsp;
+          <b>536</b> spotlights out of <b>23,918</b> submissions
+        </div>
+      </div>
+      <div class="accolade-stat">
+        <div class="accolade-pct">2.2<span>%</span></div>
+        <div class="accolade-pct-label">acceptance</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============== TL;DR STRIP ============== -->
 <section class="tldr">
@@ -349,6 +387,25 @@
         <figcaption>K6–8 (middle school) dominates (~70%) — the stage where diagrammatic construction becomes central.</figcaption>
       </figure>
     </div>
+
+    <h3 class="sub-title">Are the verifier signals trustworthy?</h3>
+    <p>
+      Faire-Bench's filtering and reward design lean on automated verifiers — so they
+      had better track human judgment. We run 12 MLLMs through both the tri-perspective
+      verifier and a panel of human raters; the agreement is near-perfect.
+    </p>
+
+    <figure class="figure narrow-fig">
+      <img src="static/images/fig_human_eval-1.png" alt="Scatter plot: Faire-Bench verifier score on Y-axis vs human score on X-axis across 12 models. Faire sits in the top-right corner; correlation r=0.9578." />
+      <figcaption>
+        <strong>Verifier vs. human (r&nbsp;=&nbsp;0.9578).</strong> Each point is a model
+        (GPT-5.2, Gemini-2.5-Pro, GLM-4.1V, Faire, …) scored independently by
+        Faire-Bench's automatic verifier and a human panel. The near-linear fit
+        validates the dataset's verification pipeline — the same signals that
+        filter training data and drive RL reward cannot be exploited by superficial
+        artifacts.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -443,16 +500,6 @@
         <em>not</em> mean randomness — it reflects a shift from low-entropy template
         generation toward deliberate computation. Drawing is no longer a fixed
         routine; it becomes an active, verifier-shaped decision.
-      </figcaption>
-    </figure>
-
-    <figure class="figure narrow-fig">
-      <img src="static/images/fig_human_eval-1.png" alt="Scatter plot: model verifier score on Y-axis vs human score on X-axis. Faire sits in upper-right corner with rate=0.9578 correlation; other models cluster lower-left." />
-      <figcaption>
-        <strong>Verifier ≈ human judgment.</strong> Faire is the only model in the
-        top-right quadrant — high automated score <em>and</em> high human preference,
-        with near-perfect correlation (r&nbsp;=&nbsp;0.9578). The reward is not exploited
-        by superficial artifacts.
       </figcaption>
     </figure>
 

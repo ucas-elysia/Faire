@@ -181,7 +181,7 @@ a:hover { color: var(--accent); }
 /* Logo + text variant (mirrors the ICML venue-badge style) */
 .org-chip-text {
   gap: 10px;
-  padding: 10px 20px 10px 14px;
+  padding: 10px 20px;
 }
 .org-chip-text .chip-mark {
   max-height: 34px;
@@ -202,7 +202,7 @@ a:hover { color: var(--accent); }
 @media (max-width: 720px) {
   .org-strip { justify-content: center; }
   .org-chip { padding: 8px 12px; height: 48px; }
-  .org-chip-text { padding: 8px 14px 8px 10px; }
+  .org-chip-text { padding: 8px 14px; }
   .org-chip-text .chip-mark { max-height: 28px; max-width: 32px; }
   .org-chip-text .chip-label { font-size: 12.5px; }
 }

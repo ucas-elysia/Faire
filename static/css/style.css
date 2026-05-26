@@ -189,12 +189,13 @@ a:hover { color: var(--accent); }
   flex: 0 0 auto;
 }
 .org-chip-text .chip-label {
-  font-family: var(--font-serif);
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
   color: var(--ink);
-  letter-spacing: -0.005em;
+  letter-spacing: 0.01em;
   white-space: nowrap;
+  line-height: 1;
 }
 
 @media (max-width: 720px) {
@@ -202,7 +203,7 @@ a:hover { color: var(--accent); }
   .org-chip { padding: 8px 12px; height: 48px; }
   .org-chip-text { padding: 6px 12px 6px 10px; }
   .org-chip-text .chip-mark { max-height: 28px; max-width: 32px; }
-  .org-chip-text .chip-label { font-size: 13px; }
+  .org-chip-text .chip-label { font-size: 12px; }
 }
 
 /* ACCOLADE BANNER — ICML Spotlight */
